@@ -1,0 +1,77 @@
+---
+title: "One-Way ANOVA in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+## Download Dataset
+
+<a href="data/One Way ANOVA Data.xlsx" download>Download the dataset used in this lesson</a>
+
+---
+# One-Way ANOVA in R
+
+ANOVA is used to compare the means of **three or more groups**.
+
+---
+
+# Load Packages
+
+```r
+library(ggplot2)
+library(dplyr)
+library(readxl)
+library(tidyverse)
+library(ggsignif)
+```
+
+---
+
+# Import Data
+
+```r
+One_Way_ANOVA_Data <- read_excel("One Way ANOVA Data.xlsx")
+
+View(One_Way_ANOVA_Data)
+
+dataANOVA <- One_Way_ANOVA_Data
+
+dataANOVA$Sites <- as.factor(dataANOVA$Sites)
+```
+
+---
+
+# Run ANOVA
+
+```r
+ANOVA_RESULTS <- aov(`Plant richness` ~ Sites, data = dataANOVA)
+
+anova(ANOVA_RESULTS)
+```
+
+---
+
+# Test Normality of Residuals
+
+```r
+aov_residuals <- residuals(ANOVA_RESULTS)
+
+shapiro.test(aov_residuals)
+```
+
+---
+
+# Q-Q Plot
+
+```r
+plot(ANOVA_RESULTS,2)
+```
+
+---
+
+# Tukey Post Hoc Test
+
+```r
+TukeyHSD(ANOVA_RESULTS)
+```
+
+---

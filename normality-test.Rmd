@@ -1,0 +1,162 @@
+---
+title: "Testing for Normality in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+
+# Testing for Normality in R
+
+Before performing parametric statistical tests (such as t-tests or ANOVA), we must first check whether the data follow a **normal distribution**.
+
+Normality can be assessed using:
+
+• Visual inspection (histograms, density plots, Q-Q plots)  
+• Statistical tests (Shapiro-Wilk, Kolmogorov-Smirnov)
+
+---
+
+# 1. Check Working Directory
+
+```r
+getwd()
+```
+
+This command shows where R is currently looking for files.
+
+---
+
+# 2. Set the Working Directory
+
+```r
+setwd("G:/My Drive/Rhodes/2025/Honours 2025/Intro to R Hons 2025")
+```
+
+This ensures R knows where the dataset is located.
+
+---
+
+# 3. Load Required Packages
+
+```r
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+```
+
+---
+
+# 4. Import the Dataset
+
+```r
+Independent_t_test <- read_excel("Independent t test.xlsx")
+
+data2025 <- Independent_t_test
+
+View(data2025)
+```
+
+---
+
+# 5. Visual Inspection of Normality
+
+## Histogram
+
+```r
+hist(data2025$`Plant richness`)
+```
+
+---
+
+## Histogram with Normal Curve
+
+```r
+hist(data2025$`Plant richness`,
+     probability = TRUE,
+     col = "lightblue",
+     main = "Histogram with Normal Distribution",
+     xlab = "Plant Richness",
+     border = "black",
+     ylim = c(0, 0.100))
+
+curve(dnorm(x,
+      mean = mean(data2025$`Plant richness`),
+      sd = sd(data2025$`Plant richness`)),
+      col = "red",
+      lwd = 3,
+      add = TRUE)
+```
+
+---
+
+## Density Plot using ggplot2
+
+```r
+ggplot(data = data2025, aes(x = `Plant richness`)) +
+  geom_density() +
+  theme_classic()
+```
+
+---
+
+## Density Plot using Base R
+
+```r
+density_plot <- density(data2025$`Plant richness`)
+
+plot(density_plot,
+     main = "Density Plot of Plant Richness",
+     xlab = "Plant Richness",
+     ylab = "Density",
+     col = "blue",
+     lwd = 2)
+```
+
+---
+
+# 6. Q-Q Plot
+
+```r
+qqnorm(data2025$`Plant richness`)
+qqline(data2025$`Plant richness`, col = "red")
+```
+
+If the points fall roughly along the straight line, the data are approximately normal.
+
+---
+
+# 7. Statistical Tests for Normality
+
+## Shapiro-Wilk Test
+
+```r
+shapiro.test(data2025$`Plant richness`)
+```
+
+If **p > 0.05**, the data are considered normally distributed.
+
+---
+
+## Kolmogorov-Smirnov Test
+
+```r
+ks.test(data2025$`Plant richness`,
+        "pnorm",
+        mean = mean(data2025$`Plant richness`),
+        sd = sd(data2025$`Plant richness`))
+```
+
+---
+
+# Summary
+
+Normality can be evaluated using:
+
+• Histograms  
+• Density plots  
+• Q-Q plots  
+• Shapiro-Wilk test  
+• Kolmogorov-Smirnov test
+
+If normality assumptions are violated, **non-parametric tests may be required**.
+
+---

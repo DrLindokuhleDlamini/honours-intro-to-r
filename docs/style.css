@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+/* Green header bar */
+.navbar {
+    background-color: #628554 !important;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+}
+
+.navbar-nav > li > a {
+    color: white !important;
+}
+
+/* Page container */
+.main-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #333;
+}
+
+/* Code styling */
+code {
+    background-color: #628554;
+    padding: 4px;
+    border-radius: 3px;
+    color: white;
+}
+
+pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #d5e8cc;
+}

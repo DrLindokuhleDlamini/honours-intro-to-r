@@ -1,0 +1,57 @@
+---
+title: "Kruskal–Wallis Test in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+## Download Dataset
+
+<a href="data/Kruskal Wallis Test Data.xlsx" download>Download the dataset used in this lesson</a>
+
+---
+# Kruskal–Wallis Test
+
+The **Kruskal–Wallis test** is the **non-parametric alternative to one-way ANOVA**.
+
+---
+
+# Load Packages
+
+```r
+library(readxl)
+library(FSA)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+---
+
+# Import Data
+
+```r
+Kruskal_Wallis_Test_Data <- read_excel("Kruskal Wallis Test Data.xlsx")
+
+View(Kruskal_Wallis_Test_Data)
+
+dataKruskal <- Kruskal_Wallis_Test_Data
+```
+
+---
+
+# Perform Kruskal-Wallis Test
+
+```r
+kruskal.test(`Plant richness` ~ Sites, data = dataKruskal)
+```
+
+---
+
+# Post Hoc Test (Dunn Test)
+
+```r
+dunnTest(`Plant richness` ~ Sites,
+         data = dataKruskal,
+         method = "bonferroni")
+```
+
+---

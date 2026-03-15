@@ -1,0 +1,254 @@
+---
+title: "Baby Steps in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+
+# Getting Started with R
+
+**Dr Lindokuhle Dlamini**  
+12 March 2026
+
+---
+
+# 1. Writing and Running a Script
+
+Open **RStudio** and click:
+
+```
+File → New File → R Script
+```
+
+Steps:
+
+1. Write your code in the script editor  
+2. Click **Run** or press **Ctrl + Enter** to execute a line of code  
+
+---
+
+# 2. Understanding the RStudio Interface
+
+### Console
+Where you type and execute commands.
+
+### Script Editor
+Where you write and save multiple lines of code.
+
+### Environment
+Stores variables and data.
+
+### Plots & Packages
+Displays graphs and installed libraries.
+
+---
+
+# 3. Basic Commands
+
+## 3.1 Arithmetic Operations
+
+```r
+2 + 3   # Addition
+5 - 2   # Subtraction
+4 * 3   # Multiplication
+10 / 2  # Division
+2^3     # Exponentiation
+```
+
+---
+
+## 3.2 Creating Variables
+
+```r
+x <- 10   # Assigns 10 to x
+y <- 5    # Assigns 5 to y
+z <- x + y  # Adds x and y
+
+z
+```
+
+---
+
+## 3.3 Data Types
+
+```r
+num <- 10.5
+text <- "Hello"
+bool <- TRUE
+```
+
+### Check the data type
+
+```r
+class(num)
+class(text)
+class(bool)
+```
+
+---
+
+# 4. Working with Vectors
+
+```r
+numbers_100 <- c(1:100)
+
+numbers <- c(1, 2, 3, 4, 5)
+
+numbers
+
+numbers[2]
+
+length(numbers)
+```
+
+---
+
+# 5. Creating and Using Data Frames
+
+```r
+data <- data.frame(
+  Name = c("Alice", "Bob", "Thandeka","Londeka","John","Zama"),
+  Age = c(25,13,40,31,17,6)
+)
+
+data
+
+data$Age
+```
+
+### To access Thandeka's age
+
+```r
+data$Age[data$Name == "Thandeka"]
+```
+
+---
+
+# 6. Importing and Exporting Data
+
+## 6.1 Importing Data
+
+```r
+data <- read.csv("data.csv")
+
+data
+```
+
+## 6.2 Exporting Data
+
+```r
+write.csv(data, "output.csv")
+```
+
+---
+
+# 7. Basic Plotting
+
+```r
+x <- c(1,2,3,4,5)
+
+y <- c(2,4,6,8,10)
+
+plot(x, y,
+     type="o",
+     col="blue",
+     main="Simple Plot")
+```
+
+---
+
+# 8. Installing and Loading Packages
+
+```r
+install.packages("ggplot2")
+
+library(ggplot2)
+```
+
+---
+
+# 9. Creating and Naming Objects in R
+
+```r
+apples.sum <- 3 + 5
+
+apples.sum
+```
+
+### Assign names to values
+
+```r
+John <- 3
+Thandeka <- 5
+
+apples.sum <- John + Thandeka
+
+apples.sum
+```
+
+### Naming Rules
+
+Object names should:
+
+• start with a letter  
+• contain letters, numbers, `_` or `.`  
+
+Examples:
+
+```r
+my_value <- 10
+long_variable_name <- 2.5
+```
+
+---
+
+# 10. Updating and Using Objects
+
+```r
+apples.sum <- apples.sum * 2
+
+apples.sum
+```
+
+---
+
+# 11. Adding Comments
+
+```r
+# This is a comment
+
+apples.sum <- 3 + 5  # Storing sum of apples
+```
+
+---
+
+# 12. Using Functions
+
+```r
+sqrt(4)
+
+round(3.14159, digits = 2)
+```
+
+---
+
+# 13. Subsetting Vectors
+
+```r
+numbers[2]
+
+numbers[c(1,3)]
+```
+
+---
+
+# 14. Summary
+
+Key ideas:
+
+• Use `<-` to assign values  
+• Use `#` to write comments  
+• Use functions to perform calculations  
+
+Scripts allow your analysis to be **saved and reproduced later**.
+
+---

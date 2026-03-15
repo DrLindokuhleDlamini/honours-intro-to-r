@@ -1,0 +1,198 @@
+---
+title: "Introduction to R and RStudio"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+<div style="background-color:#628554;padding:30px;border-radius:10px;color:white">
+
+# R Statistics for Environmental Science
+
+### Learning statistics step-by-step using R
+
+Dr Lindokuhle Dlamini  
+Department of Environmental Science  
+Rhodes University
+
+</div>
+# Introduction to R and RStudio  
+### Exploring the world of data science with R
+
+**Dr Lindokuhle Dlamini**  
+12 March 2026
+
+---
+
+## What is R and RStudio?
+
+**R** is a programming language used for statistical computing and graphics. It is derived from the S language and allows users to perform a wide range of data analysis tasks.
+
+**RStudio** is an Integrated Development Environment (IDE) that enhances R by providing an easy-to-use interface for writing and running R code, making the experience more efficient and organized.
+
+To start using R, you must first install **R itself**, and then install **RStudio**, which is built on top of R and makes working with R much easier.
+
+---
+
+## Why Learn and Use R?
+
+There are several important reasons why R has become one of the most widely used tools in data science and research.
+
+### No Pointing and Clicking
+Unlike menu-driven programs, R requires you to write code. This helps you understand exactly what analysis is being performed.
+
+### Reproducibility
+Scripts can be saved and reused, meaning your analyses can easily be reproduced by others.
+
+### There’s a Package for That
+R has **thousands of free packages** that extend its capabilities for specialised analyses.
+
+### Graphing Capabilities
+R provides extremely powerful graphing tools capable of producing **publication-quality figures**.
+
+### Community Support
+R has a very strong global community. Online forums, tutorials, and documentation make it easy to find help.
+
+### Fast Growth
+R is one of the **fastest growing programming languages** used in research, statistics, and data science.
+
+---
+
+## Installing R and RStudio
+
+Before you begin working with R, you must install both **R** and **RStudio**.
+
+### Download R
+Visit the **CRAN website** and download the latest version of R:
+
+https://cran.r-project.org
+
+### Download RStudio
+Then download the RStudio IDE:
+
+https://posit.co/download/rstudio-desktop/
+
+### Important
+
+Install **R first**, and then install **RStudio**.
+
+---
+
+## RStudio Walkthrough
+
+The RStudio interface is divided into several panels.
+
+### Script / Viewer Panel
+This is where you **write and edit your R code**.
+
+### Environment / History
+Displays variables currently stored in memory and a history of previously executed commands.
+
+### Console
+The console is where **R executes commands** and displays output.
+
+### Files / Plots / Packages / Help
+This panel allows you to:
+- manage files
+- view plots
+- install packages
+- access help documentation
+
+---
+
+## Creating Your First R Project
+
+Working within a project helps keep your work organised.
+
+1. Open **RStudio**
+2. Go to **File → New Project**
+3. Choose **New Directory → New Project**
+4. Give the project a meaningful name
+5. Save the project in a convenient location
+
+Inside your project folder it is good practice to create subfolders such as:
+
+- `data` – raw datasets
+- `scripts` – R scripts
+- `figures` – plots and images
+- `output` – results and tables
+
+---
+
+## Interacting with R
+
+There are two main ways to work in R.
+
+### Console
+You can type commands directly into the console and immediately see the results.
+
+### Scripts
+Scripts allow you to write and save multiple commands that can be run later.
+
+### Running Code
+
+To run a line of code from a script:
+
+- **Windows:** `Ctrl + Enter`
+- **Mac:** `Cmd + Return`
+
+---
+
+## Where to Find More Resources
+
+### Books
+One excellent beginner resource is:
+
+**R for Data Science – Hadley Wickham & Garrett Grolemund**
+
+### Help Documentation
+
+You can access built-in documentation for any R function using:
+
+```r
+?functionName
+```
+
+Example:
+
+```r
+?mean
+```
+
+---
+
+### Online Communities
+
+Helpful online communities include:
+
+- Stack Overflow
+- RStudio Community
+- R Bloggers
+
+---
+
+## Getting Help with R
+
+### Error Messages
+
+If you encounter an error message:
+
+1. Copy the error message
+2. Paste it into Google or ChatGPT
+3. Look for explanations and solutions
+
+### Built-in Documentation
+
+Use:
+
+```r
+?functionName
+```
+
+to open the help page for any function.
+
+### Package Vignettes
+
+Many R packages include **tutorial-style guides** called *vignettes* that explain how to use them.
+
+---
+
+© 2026 Dr Lindokuhle Dlamini

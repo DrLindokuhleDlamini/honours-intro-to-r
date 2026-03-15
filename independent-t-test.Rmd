@@ -1,0 +1,111 @@
+---
+title: "Independent T-Test in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+## Download Dataset
+
+<a href="data/Independent t test.xlsx" download>Download the dataset used in this lesson</a>
+
+---
+# Independent T-Test in R
+
+The **independent t-test** compares the mean of two independent groups.
+
+Example: comparing **plant species richness** between invaded and uninvaded sites.
+
+---
+
+# 1. Load Required Packages
+
+```r
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(ggsignif)
+library(readxl)
+```
+
+---
+
+# 2. Check Working Directory
+
+```r
+getwd()
+```
+
+---
+
+# 3. Set Working Directory
+
+```r
+setwd("G:/My Drive/Rhodes/2025/Honours 2025/Intro to R Hons 2025")
+```
+
+---
+
+# 4. Import Dataset
+
+```r
+Independent_t_test <- read_excel("Independent t test.xlsx")
+
+data2025 <- Independent_t_test
+
+View(data2025)
+```
+
+---
+
+# 5. Perform Independent T-Test
+
+```r
+t_test_result <- t.test(`Plant richness` ~ Sites, data = data2025)
+
+print(t_test_result)
+```
+
+---
+
+# 6. Extract P-value
+
+```r
+p_value <- t_test_result$p.value
+```
+
+---
+
+# 7. Plot Mean Values with Error Bars
+
+```r
+plot <- ggplot(data2025,
+               aes(x = Sites,
+                   y = `Plant richness`,
+                   fill = Sites)) +
+
+  geom_bar(stat = "summary",
+           fun = "mean",
+           width = 0.6) +
+
+  geom_errorbar(stat = "summary",
+                fun.data = "mean_cl_boot",
+                width = 0.25) +
+
+  scale_fill_manual(values = c("red","blue")) +
+
+  labs(title = "Species Richness by Site",
+       x = "Sites",
+       y = "Plant richness") +
+
+  theme_classic()
+```
+
+---
+
+# 8. Add Significance Annotation
+
+```r
+plot + geom_signif(comparisons = list(c("Invaded","Uninvaded")),
+                   annotations = paste("p =", format(p_value, digits = 2)))
+```
+
+---

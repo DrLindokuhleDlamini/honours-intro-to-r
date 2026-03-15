@@ -1,0 +1,26 @@
+name: "r-stats-teaching-website"
+output_dir: "docs"
+
+navbar:
+  title: "R Statistics"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Baby Steps"
+      href: baby-steps.html
+    - text: "Normality Test"
+      href: normality-test.html
+    - text: "Independent T-Test"
+      href: independent-t-test.html
+    - text: "Mann–Whitney U Test"
+      href: mann-whitney-u-test.html
+    - text: "One-Way ANOVA"
+      href: one-way-anova.html
+    - text: "Kruskal–Wallis Test"
+      href: kruskal-wallis.html
+
+output:
+  html_document:
+    theme: cosmo
+    css: style.css
+    toc: true

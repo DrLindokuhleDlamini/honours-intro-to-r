@@ -1,0 +1,86 @@
+---
+title: "Mann–Whitney U Test in R"
+author: "Dr Lindokuhle Dlamini"
+output: html_document
+---
+
+# Mann–Whitney U Test
+
+The **Mann–Whitney U test** is the **non-parametric alternative** to the independent t-test.
+
+It is used when the assumptions of the t-test (such as normality) are violated.
+
+---
+
+# Load Required Packages
+
+```r
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(ggsignif)
+library(car)
+```
+
+---
+
+# Check Working Directory
+
+```r
+getwd()
+
+setwd("G:/My Drive/Rhodes/2025/Honours 2025/Intro to R Hons 2025")
+```
+
+---
+
+# Import Data
+
+```r
+Nonparametric_t_test.xlsx <- read_excel("Nonparametric t test.xlsx")
+
+data2025 <- Nonparametric_t_test.xlsx
+
+View(data2025)
+```
+
+---
+
+# Inspect Distribution
+
+```r
+hist(data2025$`Plant richness`)
+```
+
+---
+
+# Test for Normality
+
+```r
+shapiro.test(data2025$`Plant richness`)
+```
+
+---
+
+# Test Equality of Variance
+
+```r
+leveneTest(`Plant richness` ~ Sites, data = data2025)
+```
+
+---
+## Download Dataset
+
+<a href="data/Nonparametric t test.xlsx" download>Download the dataset used in this lesson</a>
+
+---
+# Perform Mann–Whitney U Test
+
+```r
+mann_whitney_result <- wilcox.test(`Plant richness` ~ Sites, data = data2025)
+
+print(mann_whitney_result)
+```
+
+---
