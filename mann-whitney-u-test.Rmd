@@ -1,7 +1,10 @@
 ---
 title: "Mann–Whitney U Test in R"
 author: "Dr Lindokuhle Dlamini"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 # Mann–Whitney U Test

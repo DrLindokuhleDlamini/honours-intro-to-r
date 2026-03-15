@@ -1,7 +1,10 @@
 ---
 title: "Baby Steps in R"
 author: "Dr Lindokuhle Dlamini"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 # Getting Started with R
