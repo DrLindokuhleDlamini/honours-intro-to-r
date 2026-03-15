@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dr Lindokuhle Dlamini" />
+
+
+<title>Introduction to R and RStudio</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Statistics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="baby-steps.html">Baby Steps</a>
+</li>
+<li>
+  <a href="normality-test.html">Normality Test</a>
+</li>
+<li>
+  <a href="independent-t-test.html">Independent T-Test</a>
+</li>
+<li>
+  <a href="mann-whitney-u-test.html">Mann–Whitney U Test</a>
+</li>
+<li>
+  <a href="one-way-anova.html">One-Way ANOVA</a>
+</li>
+<li>
+  <a href="kruskal-wallis.html">Kruskal–Wallis Test</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R and RStudio</h1>
+<h4 class="author">Dr Lindokuhle Dlamini</h4>
+
+</div>
+
+
+<div id="r-statistics-for-environmental-science" class="section level1"
+style="background-color:#628554;padding:30px;border-radius:10px;color:white">
+<h1>R Statistics for Environmental Science</h1>
+<div id="learning-statistics-step-by-step-using-r"
+class="section level3">
+<h3>Learning statistics step-by-step using R</h3>
+<p>Dr Lindokuhle Dlamini<br />
+Department of Environmental Science<br />
+Rhodes University</p>
+</div>
+</div>
+<div id="introduction-to-r-and-rstudio" class="section level1">
+<h1>Introduction to R and RStudio</h1>
+<div id="exploring-the-world-of-data-science-with-r"
+class="section level3">
+<h3>Exploring the world of data science with R</h3>
+<p><strong>Dr Lindokuhle Dlamini</strong><br />
+12 March 2026</p>
+<hr />
+</div>
+<div id="what-is-r-and-rstudio" class="section level2">
+<h2>What is R and RStudio?</h2>
+<p><strong>R</strong> is a programming language used for statistical
+computing and graphics. It is derived from the S language and allows
+users to perform a wide range of data analysis tasks.</p>
+<p><strong>RStudio</strong> is an Integrated Development Environment
+(IDE) that enhances R by providing an easy-to-use interface for writing
+and running R code, making the experience more efficient and
+organized.</p>
+<p>To start using R, you must first install <strong>R itself</strong>,
+and then install <strong>RStudio</strong>, which is built on top of R
+and makes working with R much easier.</p>
+<hr />
+</div>
+<div id="why-learn-and-use-r" class="section level2">
+<h2>Why Learn and Use R?</h2>
+<p>There are several important reasons why R has become one of the most
+widely used tools in data science and research.</p>
+<div id="no-pointing-and-clicking" class="section level3">
+<h3>No Pointing and Clicking</h3>
+<p>Unlike menu-driven programs, R requires you to write code. This helps
+you understand exactly what analysis is being performed.</p>
+</div>
+<div id="reproducibility" class="section level3">
+<h3>Reproducibility</h3>
+<p>Scripts can be saved and reused, meaning your analyses can easily be
+reproduced by others.</p>
+</div>
+<div id="theres-a-package-for-that" class="section level3">
+<h3>There’s a Package for That</h3>
+<p>R has <strong>thousands of free packages</strong> that extend its
+capabilities for specialised analyses.</p>
+</div>
+<div id="graphing-capabilities" class="section level3">
+<h3>Graphing Capabilities</h3>
+<p>R provides extremely powerful graphing tools capable of producing
+<strong>publication-quality figures</strong>.</p>
+</div>
+<div id="community-support" class="section level3">
+<h3>Community Support</h3>
+<p>R has a very strong global community. Online forums, tutorials, and
+documentation make it easy to find help.</p>
+</div>
+<div id="fast-growth" class="section level3">
+<h3>Fast Growth</h3>
+<p>R is one of the <strong>fastest growing programming
+languages</strong> used in research, statistics, and data science.</p>
+<hr />
+</div>
+</div>
+<div id="installing-r-and-rstudio" class="section level2">
+<h2>Installing R and RStudio</h2>
+<p>Before you begin working with R, you must install both
+<strong>R</strong> and <strong>RStudio</strong>.</p>
+<div id="download-r" class="section level3">
+<h3>Download R</h3>
+<p>Visit the <strong>CRAN website</strong> and download the latest
+version of R:</p>
+<p><a href="https://cran.r-project.org"
+class="uri">https://cran.r-project.org</a></p>
+</div>
+<div id="download-rstudio" class="section level3">
+<h3>Download RStudio</h3>
+<p>Then download the RStudio IDE:</p>
+<p><a href="https://posit.co/download/rstudio-desktop/"
+class="uri">https://posit.co/download/rstudio-desktop/</a></p>
+</div>
+<div id="important" class="section level3">
+<h3>Important</h3>
+<p>Install <strong>R first</strong>, and then install
+<strong>RStudio</strong>.</p>
+<hr />
+</div>
+</div>
+<div id="rstudio-walkthrough" class="section level2">
+<h2>RStudio Walkthrough</h2>
+<p>The RStudio interface is divided into several panels.</p>
+<div id="script-viewer-panel" class="section level3">
+<h3>Script / Viewer Panel</h3>
+<p>This is where you <strong>write and edit your R code</strong>.</p>
+</div>
+<div id="environment-history" class="section level3">
+<h3>Environment / History</h3>
+<p>Displays variables currently stored in memory and a history of
+previously executed commands.</p>
+</div>
+<div id="console" class="section level3">
+<h3>Console</h3>
+<p>The console is where <strong>R executes commands</strong> and
+displays output.</p>
+</div>
+<div id="files-plots-packages-help" class="section level3">
+<h3>Files / Plots / Packages / Help</h3>
+<p>This panel allows you to: - manage files - view plots - install
+packages - access help documentation</p>
+<hr />
+</div>
+</div>
+<div id="creating-your-first-r-project" class="section level2">
+<h2>Creating Your First R Project</h2>
+<p>Working within a project helps keep your work organised.</p>
+<ol style="list-style-type: decimal">
+<li>Open <strong>RStudio</strong></li>
+<li>Go to <strong>File → New Project</strong></li>
+<li>Choose <strong>New Directory → New Project</strong></li>
+<li>Give the project a meaningful name</li>
+<li>Save the project in a convenient location</li>
+</ol>
+<p>Inside your project folder it is good practice to create subfolders
+such as:</p>
+<ul>
+<li><code>data</code> – raw datasets</li>
+<li><code>scripts</code> – R scripts</li>
+<li><code>figures</code> – plots and images</li>
+<li><code>output</code> – results and tables</li>
+</ul>
+<hr />
+</div>
+<div id="interacting-with-r" class="section level2">
+<h2>Interacting with R</h2>
+<p>There are two main ways to work in R.</p>
+<div id="console-1" class="section level3">
+<h3>Console</h3>
+<p>You can type commands directly into the console and immediately see
+the results.</p>
+</div>
+<div id="scripts" class="section level3">
+<h3>Scripts</h3>
+<p>Scripts allow you to write and save multiple commands that can be run
+later.</p>
+</div>
+<div id="running-code" class="section level3">
+<h3>Running Code</h3>
+<p>To run a line of code from a script:</p>
+<ul>
+<li><strong>Windows:</strong> <code>Ctrl + Enter</code></li>
+<li><strong>Mac:</strong> <code>Cmd + Return</code></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="where-to-find-more-resources" class="section level2">
+<h2>Where to Find More Resources</h2>
+<div id="books" class="section level3">
+<h3>Books</h3>
+<p>One excellent beginner resource is:</p>
+<p><strong>R for Data Science – Hadley Wickham &amp; Garrett
+Grolemund</strong></p>
+</div>
+<div id="help-documentation" class="section level3">
+<h3>Help Documentation</h3>
+<p>You can access built-in documentation for any R function using:</p>
+<pre class="r"><code>?functionName</code></pre>
+<p>Example:</p>
+<pre class="r"><code>?mean</code></pre>
+<hr />
+</div>
+<div id="online-communities" class="section level3">
+<h3>Online Communities</h3>
+<p>Helpful online communities include:</p>
+<ul>
+<li>Stack Overflow</li>
+<li>RStudio Community</li>
+<li>R Bloggers</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="getting-help-with-r" class="section level2">
+<h2>Getting Help with R</h2>
+<div id="error-messages" class="section level3">
+<h3>Error Messages</h3>
+<p>If you encounter an error message:</p>
+<ol style="list-style-type: decimal">
+<li>Copy the error message</li>
+<li>Paste it into Google or ChatGPT</li>
+<li>Look for explanations and solutions</li>
+</ol>
+</div>
+<div id="built-in-documentation" class="section level3">
+<h3>Built-in Documentation</h3>
+<p>Use:</p>
+<pre class="r"><code>?functionName</code></pre>
+<p>to open the help page for any function.</p>
+</div>
+<div id="package-vignettes" class="section level3">
+<h3>Package Vignettes</h3>
+<p>Many R packages include <strong>tutorial-style guides</strong> called
+<em>vignettes</em> that explain how to use them.</p>
+<hr />
+<p>© 2026 Dr Lindokuhle Dlamini</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
