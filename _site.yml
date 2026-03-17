@@ -24,4 +24,7 @@ output:
     theme: cosmo
     css: style.css
     toc: true
-    toc_float: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+      smooth_scroll: true

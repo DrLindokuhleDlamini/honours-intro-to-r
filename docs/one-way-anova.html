@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -221,6 +224,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -228,6 +300,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -282,40 +364,34 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#one-way-anova-in-r" id="toc-one-way-anova-in-r">One-Way
-ANOVA in R</a></li>
-<li><a href="#load-packages" id="toc-load-packages">Load
-Packages</a></li>
-<li><a href="#import-data" id="toc-import-data">Import Data</a></li>
-<li><a href="#run-anova" id="toc-run-anova">Run ANOVA</a></li>
-<li><a href="#test-normality-of-residuals"
-id="toc-test-normality-of-residuals">Test Normality of
-Residuals</a></li>
-<li><a href="#q-q-plot" id="toc-q-q-plot">Q-Q Plot</a></li>
-<li><a href="#tukey-post-hoc-test" id="toc-tukey-post-hoc-test">Tukey
-Post Hoc Test</a></li>
-</ul>
-</div>
 
+<div id="download-dataset" class="section level2">
+<h2>Download Dataset</h2>
+<p><a href="data/One_Way_ANOVA_Data.xlsx">Download the dataset used in
+this lesson</a></p>
+<hr />
+</div>
 <div id="one-way-anova-in-r" class="section level1">
 <h1>One-Way ANOVA in R</h1>
 <p>ANOVA is used to compare the means of <strong>three or more
 groups</strong>.</p>
+<p>Example: comparing <strong>plant species richness across invaded,
+uninvaded and cleared sites.</strong></p>
 <hr />
 </div>
-<div id="load-packages" class="section level1">
-<h1>Load Packages</h1>
+<div id="load-required-packages" class="section level1">
+<h1>1. Load Required Packages</h1>
 <pre class="r"><code>library(ggplot2)
 library(dplyr)
 library(readxl)
 library(tidyverse)
-library(ggsignif)</code></pre>
+library(ggsignif)
+library(multcomp)
+library(ggpubr)</code></pre>
 <hr />
 </div>
 <div id="import-data" class="section level1">
-<h1>Import Data</h1>
+<h1>2. Import Data</h1>
 <pre class="r"><code>One_Way_ANOVA_Data &lt;- read_excel(&quot;One Way ANOVA Data.xlsx&quot;)
 
 View(One_Way_ANOVA_Data)
@@ -325,33 +401,139 @@ dataANOVA &lt;- One_Way_ANOVA_Data
 dataANOVA$Sites &lt;- as.factor(dataANOVA$Sites)</code></pre>
 <hr />
 </div>
-<div id="run-anova" class="section level1">
-<h1>Run ANOVA</h1>
-<pre class="r"><code>ANOVA_RESULTS &lt;- aov(`Plant richness` ~ Sites, data = dataANOVA)
+<div id="run-one-way-anova" class="section level1">
+<h1>3. Run One-Way ANOVA</h1>
+<pre class="r"><code># Performing a one-way ANOVA
+
+ANOVA_RESULTS &lt;- aov(`Plant richness` ~ Sites, data = dataANOVA)
 
 anova(ANOVA_RESULTS)</code></pre>
 <hr />
 </div>
 <div id="test-normality-of-residuals" class="section level1">
-<h1>Test Normality of Residuals</h1>
-<pre class="r"><code>aov_residuals &lt;- residuals(ANOVA_RESULTS)
+<h1>4. Test Normality of Residuals</h1>
+<p>Normality in ANOVA is tested on the <strong>model residuals</strong>,
+not the raw data.</p>
+<pre class="r"><code># Extract the residuals
 
-shapiro.test(aov_residuals)</code></pre>
+aov_residuals &lt;- residuals(object = ANOVA_RESULTS)
+
+# Shapiro-Wilk normality test
+
+shapiro.test(x = aov_residuals)</code></pre>
 <hr />
 </div>
 <div id="q-q-plot" class="section level1">
-<h1>Q-Q Plot</h1>
-<pre class="r"><code>plot(ANOVA_RESULTS,2)</code></pre>
+<h1>5. Q-Q Plot</h1>
+<pre class="r"><code>plot(ANOVA_RESULTS, 2)</code></pre>
 <hr />
 </div>
 <div id="tukey-post-hoc-test" class="section level1">
-<h1>Tukey Post Hoc Test</h1>
+<h1>6. Tukey Post Hoc Test</h1>
 <pre class="r"><code>TukeyHSD(ANOVA_RESULTS)</code></pre>
 <hr />
+</div>
+<div id="advanced-post-hoc-test-general-linear-hypotheses"
+class="section level1">
+<h1>7. Advanced Post Hoc Test (General Linear Hypotheses)</h1>
+<p>This method allows you to <strong>adjust multiple comparison
+corrections</strong>.</p>
+<pre class="r"><code>posthoc_result &lt;- summary(glht(ANOVA_RESULTS, linfct = mcp(Sites = &quot;Tukey&quot;)))
+
+posthoc_result</code></pre>
+<p>Apply a <strong>Holm correction</strong> to make the test more
+conservative.</p>
+<pre class="r"><code>summary(posthoc_result, test = adjusted(&quot;holm&quot;))</code></pre>
+<hr />
+</div>
+<div id="plot-mean-and-standard-error-ggpubr" class="section level1">
+<h1>8. Plot Mean and Standard Error (ggpubr)</h1>
+<pre class="r"><code>ggline(dataANOVA,
+       x = &quot;Sites&quot;,
+       y = &quot;Plant richness&quot;,
+       add = c(&quot;mean_se&quot;, &quot;jitter&quot;),
+       order = c(&quot;Invaded&quot;, &quot;Uninvaded&quot;, &quot;Cleared&quot;),
+       ylab = &quot;Plant richness&quot;,
+       xlab = &quot;Sites&quot;)</code></pre>
+<hr />
+</div>
+<div id="error-plot-with-means-and-confidence-intervals"
+class="section level1">
+<h1>9. Error Plot with Means and Confidence Intervals</h1>
+<pre class="r"><code>Errorplot &lt;- ggplot(dataANOVA, aes(x = Sites, y = `Plant richness`)) +
+
+  geom_point(stat = &quot;summary&quot;,
+             fun = &quot;mean&quot;,
+             position = &quot;dodge&quot;,
+             size = 3.8) +
+
+  scale_x_discrete(limits = c(&quot;Invaded&quot;, &quot;Uninvaded&quot;, &quot;Cleared&quot;)) +
+
+  geom_errorbar(stat = &quot;summary&quot;,
+                fun.data = &quot;mean_cl_boot&quot;,
+                width = 0.25) +
+
+  labs(x = &quot;Sites&quot;,
+       y = &quot;Plant species richness&quot;) +
+
+  theme(
+    axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+
+    axis.line = element_line(color = &quot;black&quot;),
+
+    axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+
+    panel.background = element_rect(fill = &quot;white&quot;),
+
+    legend.title = element_text(color = &quot;black&quot;, size = 14),
+    legend.text = element_text(color = &quot;black&quot;, size = 14)
+  )
+
+Errorplot</code></pre>
+<hr />
+</div>
+<div id="add-significance-letters" class="section level1">
+<h1>10. Add Significance Letters</h1>
+<pre class="r"><code>Errorplot +
+
+  geom_text(
+    aes(x = 1, y = 11.5, label = &quot;a&quot;),
+    size = 6,
+    fontface = &quot;bold&quot;,
+    color = &quot;black&quot;
+  ) +
+
+  geom_text(
+    aes(x = 2, y = 16, label = &quot;b&quot;),
+    size = 6,
+    fontface = &quot;bold&quot;,
+    color = &quot;black&quot;
+  ) +
+
+  geom_text(
+    aes(x = 3, y = 13.5, label = &quot;ab&quot;),
+    size = 6,
+    fontface = &quot;bold&quot;,
+    color = &quot;black&quot;
+  )</code></pre>
+<hr />
+</div>
+<div id="interpretation" class="section level1">
+<h1>Interpretation</h1>
+<p>If the <strong>ANOVA p-value &lt; 0.05</strong>, at least one group
+mean differs from the others.</p>
+<p>Post-hoc tests (e.g. <strong>Tukey</strong>) identify <strong>which
+groups differ significantly</strong>.</p>
+<hr />
+<p>© 2026 Dr Lindokuhle Dlamini</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -384,6 +566,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

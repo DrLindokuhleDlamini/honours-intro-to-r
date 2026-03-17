@@ -1,24 +1,23 @@
 ---
 title: "One-Way ANOVA in R"
 author: "Dr Lindokuhle Dlamini"
-output:
-  html_document:
-    toc: true
-    toc_float: true
 ---
 
 ## Download Dataset
 
-<a href="data/One Way ANOVA Data.xlsx" download>Download the dataset used in this lesson</a>
+[Download the dataset used in this lesson](data/One_Way_ANOVA_Data.xlsx)
 
 ---
+
 # One-Way ANOVA in R
 
 ANOVA is used to compare the means of **three or more groups**.
 
+Example: comparing **plant species richness across invaded, uninvaded and cleared sites.**
+
 ---
 
-# Load Packages
+# 1. Load Required Packages
 
 ```r
 library(ggplot2)
@@ -26,11 +25,13 @@ library(dplyr)
 library(readxl)
 library(tidyverse)
 library(ggsignif)
+library(multcomp)
+library(ggpubr)
 ```
 
 ---
 
-# Import Data
+# 2. Import Data
 
 ```r
 One_Way_ANOVA_Data <- read_excel("One Way ANOVA Data.xlsx")
@@ -44,9 +45,11 @@ dataANOVA$Sites <- as.factor(dataANOVA$Sites)
 
 ---
 
-# Run ANOVA
+# 3. Run One-Way ANOVA
 
 ```r
+# Performing a one-way ANOVA
+
 ANOVA_RESULTS <- aov(`Plant richness` ~ Sites, data = dataANOVA)
 
 anova(ANOVA_RESULTS)
@@ -54,28 +57,144 @@ anova(ANOVA_RESULTS)
 
 ---
 
-# Test Normality of Residuals
+# 4. Test Normality of Residuals
+
+Normality in ANOVA is tested on the **model residuals**, not the raw data.
 
 ```r
-aov_residuals <- residuals(ANOVA_RESULTS)
+# Extract the residuals
 
-shapiro.test(aov_residuals)
+aov_residuals <- residuals(object = ANOVA_RESULTS)
+
+# Shapiro-Wilk normality test
+
+shapiro.test(x = aov_residuals)
 ```
 
 ---
 
-# Q-Q Plot
+# 5. Q-Q Plot
 
 ```r
-plot(ANOVA_RESULTS,2)
+plot(ANOVA_RESULTS, 2)
 ```
 
 ---
 
-# Tukey Post Hoc Test
+# 6. Tukey Post Hoc Test
 
 ```r
 TukeyHSD(ANOVA_RESULTS)
 ```
 
 ---
+
+# 7. Advanced Post Hoc Test (General Linear Hypotheses)
+
+This method allows you to **adjust multiple comparison corrections**.
+
+```r
+posthoc_result <- summary(glht(ANOVA_RESULTS, linfct = mcp(Sites = "Tukey")))
+
+posthoc_result
+```
+
+Apply a **Holm correction** to make the test more conservative.
+
+```r
+summary(posthoc_result, test = adjusted("holm"))
+```
+
+---
+
+# 8. Plot Mean and Standard Error (ggpubr)
+
+```r
+ggline(dataANOVA,
+       x = "Sites",
+       y = "Plant richness",
+       add = c("mean_se", "jitter"),
+       order = c("Invaded", "Uninvaded", "Cleared"),
+       ylab = "Plant richness",
+       xlab = "Sites")
+```
+
+---
+
+# 9. Error Plot with Means and Confidence Intervals
+
+```r
+Errorplot <- ggplot(dataANOVA, aes(x = Sites, y = `Plant richness`)) +
+
+  geom_point(stat = "summary",
+             fun = "mean",
+             position = "dodge",
+             size = 3.8) +
+
+  scale_x_discrete(limits = c("Invaded", "Uninvaded", "Cleared")) +
+
+  geom_errorbar(stat = "summary",
+                fun.data = "mean_cl_boot",
+                width = 0.25) +
+
+  labs(x = "Sites",
+       y = "Plant species richness") +
+
+  theme(
+    axis.text.x = element_text(face = "bold", color = "black", size = 12),
+    axis.title.x = element_text(face = "bold", color = "black", size = 18),
+
+    axis.line = element_line(color = "black"),
+
+    axis.text.y = element_text(face = "bold", color = "black", size = 12),
+    axis.title.y = element_text(face = "bold", color = "black", size = 18),
+
+    panel.background = element_rect(fill = "white"),
+
+    legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 14)
+  )
+
+Errorplot
+```
+
+---
+
+# 10. Add Significance Letters
+
+```r
+Errorplot +
+
+  geom_text(
+    aes(x = 1, y = 11.5, label = "a"),
+    size = 6,
+    fontface = "bold",
+    color = "black"
+  ) +
+
+  geom_text(
+    aes(x = 2, y = 16, label = "b"),
+    size = 6,
+    fontface = "bold",
+    color = "black"
+  ) +
+
+  geom_text(
+    aes(x = 3, y = 13.5, label = "ab"),
+    size = 6,
+    fontface = "bold",
+    color = "black"
+  )
+```
+
+---
+
+# Interpretation
+
+If the **ANOVA p-value < 0.05**, at least one group mean differs from the others.
+
+Post-hoc tests (e.g. **Tukey**) identify **which groups differ significantly**.
+
+---
+
+© 2026 Dr Lindokuhle Dlamini

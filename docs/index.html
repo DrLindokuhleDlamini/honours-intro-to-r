@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -221,6 +224,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -228,6 +300,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -282,91 +364,6 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#r-statistics-for-environmental-science"
-id="toc-r-statistics-for-environmental-science">R Statistics for
-Environmental Science</a>
-<ul>
-<li><a href="#learning-statistics-step-by-step-using-r"
-id="toc-learning-statistics-step-by-step-using-r">Learning statistics
-step-by-step using R</a></li>
-</ul></li>
-<li><a href="#introduction-to-r-and-rstudio"
-id="toc-introduction-to-r-and-rstudio">Introduction to R and RStudio</a>
-<ul>
-<li><a href="#exploring-the-world-of-data-science-with-r"
-id="toc-exploring-the-world-of-data-science-with-r">Exploring the world
-of data science with R</a></li>
-<li><a href="#what-is-r-and-rstudio" id="toc-what-is-r-and-rstudio">What
-is R and RStudio?</a></li>
-<li><a href="#why-learn-and-use-r" id="toc-why-learn-and-use-r">Why
-Learn and Use R?</a>
-<ul>
-<li><a href="#no-pointing-and-clicking"
-id="toc-no-pointing-and-clicking">No Pointing and Clicking</a></li>
-<li><a href="#reproducibility"
-id="toc-reproducibility">Reproducibility</a></li>
-<li><a href="#theres-a-package-for-that"
-id="toc-theres-a-package-for-that">There’s a Package for That</a></li>
-<li><a href="#graphing-capabilities"
-id="toc-graphing-capabilities">Graphing Capabilities</a></li>
-<li><a href="#community-support" id="toc-community-support">Community
-Support</a></li>
-<li><a href="#fast-growth" id="toc-fast-growth">Fast Growth</a></li>
-</ul></li>
-<li><a href="#installing-r-and-rstudio"
-id="toc-installing-r-and-rstudio">Installing R and RStudio</a>
-<ul>
-<li><a href="#download-r" id="toc-download-r">Download R</a></li>
-<li><a href="#download-rstudio" id="toc-download-rstudio">Download
-RStudio</a></li>
-<li><a href="#important" id="toc-important">Important</a></li>
-</ul></li>
-<li><a href="#rstudio-walkthrough" id="toc-rstudio-walkthrough">RStudio
-Walkthrough</a>
-<ul>
-<li><a href="#script-viewer-panel" id="toc-script-viewer-panel">Script /
-Viewer Panel</a></li>
-<li><a href="#environment-history"
-id="toc-environment-history">Environment / History</a></li>
-<li><a href="#console" id="toc-console">Console</a></li>
-<li><a href="#files-plots-packages-help"
-id="toc-files-plots-packages-help">Files / Plots / Packages /
-Help</a></li>
-</ul></li>
-<li><a href="#creating-your-first-r-project"
-id="toc-creating-your-first-r-project">Creating Your First R
-Project</a></li>
-<li><a href="#interacting-with-r"
-id="toc-interacting-with-r">Interacting with R</a>
-<ul>
-<li><a href="#console-1" id="toc-console-1">Console</a></li>
-<li><a href="#scripts" id="toc-scripts">Scripts</a></li>
-<li><a href="#running-code" id="toc-running-code">Running Code</a></li>
-</ul></li>
-<li><a href="#where-to-find-more-resources"
-id="toc-where-to-find-more-resources">Where to Find More Resources</a>
-<ul>
-<li><a href="#books" id="toc-books">Books</a></li>
-<li><a href="#help-documentation" id="toc-help-documentation">Help
-Documentation</a></li>
-<li><a href="#online-communities" id="toc-online-communities">Online
-Communities</a></li>
-</ul></li>
-<li><a href="#getting-help-with-r" id="toc-getting-help-with-r">Getting
-Help with R</a>
-<ul>
-<li><a href="#error-messages" id="toc-error-messages">Error
-Messages</a></li>
-<li><a href="#built-in-documentation"
-id="toc-built-in-documentation">Built-in Documentation</a></li>
-<li><a href="#package-vignettes" id="toc-package-vignettes">Package
-Vignettes</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
 
 <div id="r-statistics-for-environmental-science" class="section level1"
 style="background-color:#628554;padding:30px;border-radius:10px;color:white">
@@ -585,6 +582,8 @@ Grolemund</strong></p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -617,6 +616,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

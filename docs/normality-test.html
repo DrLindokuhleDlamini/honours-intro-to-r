@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -221,6 +224,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -228,6 +300,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -282,44 +364,6 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#testing-for-normality-in-r"
-id="toc-testing-for-normality-in-r">Testing for Normality in R</a></li>
-<li><a href="#check-working-directory"
-id="toc-check-working-directory">1. Check Working Directory</a></li>
-<li><a href="#set-the-working-directory"
-id="toc-set-the-working-directory">2. Set the Working Directory</a></li>
-<li><a href="#load-required-packages" id="toc-load-required-packages">3.
-Load Required Packages</a></li>
-<li><a href="#import-the-dataset" id="toc-import-the-dataset">4. Import
-the Dataset</a></li>
-<li><a href="#visual-inspection-of-normality"
-id="toc-visual-inspection-of-normality">5. Visual Inspection of
-Normality</a>
-<ul>
-<li><a href="#histogram" id="toc-histogram">Histogram</a></li>
-<li><a href="#histogram-with-normal-curve"
-id="toc-histogram-with-normal-curve">Histogram with Normal
-Curve</a></li>
-<li><a href="#density-plot-using-ggplot2"
-id="toc-density-plot-using-ggplot2">Density Plot using ggplot2</a></li>
-<li><a href="#density-plot-using-base-r"
-id="toc-density-plot-using-base-r">Density Plot using Base R</a></li>
-</ul></li>
-<li><a href="#q-q-plot" id="toc-q-q-plot">6. Q-Q Plot</a></li>
-<li><a href="#statistical-tests-for-normality"
-id="toc-statistical-tests-for-normality">7. Statistical Tests for
-Normality</a>
-<ul>
-<li><a href="#shapiro-wilk-test" id="toc-shapiro-wilk-test">Shapiro-Wilk
-Test</a></li>
-<li><a href="#kolmogorov-smirnov-test"
-id="toc-kolmogorov-smirnov-test">Kolmogorov-Smirnov Test</a></li>
-</ul></li>
-<li><a href="#summary" id="toc-summary">Summary</a></li>
-</ul>
-</div>
 
 <div id="testing-for-normality-in-r" class="section level1">
 <h1>Testing for Normality in R</h1>
@@ -445,6 +489,8 @@ may be required</strong>.</p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -477,6 +523,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

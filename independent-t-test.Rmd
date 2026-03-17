@@ -1,17 +1,14 @@
 ---
 title: "Independent T-Test in R"
 author: "Dr Lindokuhle Dlamini"
-output:
-  html_document:
-    toc: true
-    toc_float: true
 ---
 
 ## Download Dataset
 
-<a href="data/Independent t test.xlsx" download>Download the dataset used in this lesson</a>
+[Download the dataset used in this lesson](data/Independent_T_Test_Data.xlsx)
 
 ---
+
 # Independent T-Test in R
 
 The **independent t-test** compares the mean of two independent groups.
@@ -51,7 +48,7 @@ setwd("G:/My Drive/Rhodes/2025/Honours 2025/Intro to R Hons 2025")
 # 4. Import Dataset
 
 ```r
-Independent_t_test <- read_excel("Independent t test.xlsx")
+Independent_t_test <- read_excel("Independent_T_Test_Data.xlsx")
 
 data2025 <- Independent_t_test
 
@@ -60,7 +57,17 @@ View(data2025)
 
 ---
 
-# 5. Perform Independent T-Test
+# 5. Inspect the Data
+
+```r
+head(data2025)
+
+str(data2025)
+```
+
+---
+
+# 6. Perform Independent T-Test
 
 ```r
 t_test_result <- t.test(`Plant richness` ~ Sites, data = data2025)
@@ -70,24 +77,24 @@ print(t_test_result)
 
 ---
 
-# 6. Extract P-value
+# 7. Extract P-value
 
 ```r
 p_value <- t_test_result$p.value
+
+p_value
 ```
 
 ---
 
-# 7. Plot Mean Values with Error Bars
+# 8. Plot Mean Values with Error Bars
 
 ```r
-plot <- ggplot(data2025,
-               aes(x = Sites,
-                   y = `Plant richness`,
-                   fill = Sites)) +
+plot <- ggplot(data2025, aes(x = Sites, y = `Plant richness`, fill = Sites)) +
 
   geom_bar(stat = "summary",
            fun = "mean",
+           position = "dodge",
            width = 0.6) +
 
   geom_errorbar(stat = "summary",
@@ -98,18 +105,105 @@ plot <- ggplot(data2025,
 
   labs(title = "Species Richness by Site",
        x = "Sites",
-       y = "Plant richness") +
+       y = "Plant species richness") +
 
+  theme_minimal() +
+  theme(legend.position = "none") +
   theme_classic()
+
+plot
 ```
 
 ---
 
-# 8. Add Significance Annotation
+# 9. Add Significance Annotation
 
 ```r
 plot + geom_signif(comparisons = list(c("Invaded","Uninvaded")),
-                   annotations = paste("p =", format(p_value, digits = 2)))
+                   annotations = paste("p =", format(p_value, digits = 2)),
+                   map_signif_level = TRUE) +
+
+  theme(
+    axis.text.x = element_text(face = "bold", color = "black", size = 12),
+    axis.title.x = element_text(face = "bold", color = "black", size = 18),
+    axis.line = element_line(color = "black"),
+
+    axis.text.y = element_text(face = "bold", color = "black", size = 12),
+    axis.title.y = element_text(face = "bold", color = "black", size = 18),
+
+    panel.background = element_rect(fill = "white"),
+
+    legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 14)
+  )
 ```
 
 ---
+
+# 10. Alternative Plot: Mean with Error Bars
+
+```r
+Errorplot <- ggplot(data2025, aes(x = Sites, y = `Plant richness`)) +
+
+  geom_point(stat = "summary",
+             fun = "mean",
+             size = 3.8) +
+
+  geom_errorbar(stat = "summary",
+                fun.data = "mean_cl_boot",
+                width = 0.25) +
+
+  labs(x = "Sites",
+       y = "Plant species richness") +
+
+  theme(
+    axis.text.x = element_text(face = "bold", color = "black", size = 12),
+    axis.title.x = element_text(face = "bold", color = "black", size = 18),
+
+    axis.line = element_line(color = "black"),
+
+    axis.text.y = element_text(face = "bold", color = "black", size = 12),
+    axis.title.y = element_text(face = "bold", color = "black", size = 18),
+
+    panel.background = element_rect(fill = "white"),
+
+    legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 14)
+  )
+
+Errorplot
+```
+
+---
+
+# 11. Add Letter-Based Significance
+
+```r
+Errorplot +
+
+  geom_text(
+    aes(x = 1, y = 12, label = "a"),
+    size = 6,
+    fontface = "bold",
+    color = "black"
+  ) +
+
+  geom_text(
+    aes(x = 2, y = 17, label = "b"),
+    size = 6,
+    fontface = "bold",
+    color = "black"
+  )
+```
+
+---
+
+# 12. Interpretation
+
+If the **p-value < 0.05**, the two groups are significantly different.
+
+If the **p-value > 0.05**, there is no significant difference between the means.
+
+---
+
+© 2026 Dr Lindokuhle Dlamini

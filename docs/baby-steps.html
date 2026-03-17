@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -221,6 +224,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -228,6 +300,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -282,80 +364,6 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#getting-started-with-r"
-id="toc-getting-started-with-r">Getting Started with R</a></li>
-<li><a href="#writing-and-running-a-script"
-id="toc-writing-and-running-a-script">1. Writing and Running a
-Script</a></li>
-<li><a href="#understanding-the-rstudio-interface"
-id="toc-understanding-the-rstudio-interface">2. Understanding the
-RStudio Interface</a>
-<ul>
-<li><a href="#console" id="toc-console">Console</a></li>
-<li><a href="#script-editor" id="toc-script-editor">Script
-Editor</a></li>
-<li><a href="#environment" id="toc-environment">Environment</a></li>
-<li><a href="#plots-packages" id="toc-plots-packages">Plots &amp;
-Packages</a></li>
-</ul></li>
-<li><a href="#basic-commands" id="toc-basic-commands">3. Basic
-Commands</a>
-<ul>
-<li><a href="#arithmetic-operations" id="toc-arithmetic-operations">3.1
-Arithmetic Operations</a></li>
-<li><a href="#creating-variables" id="toc-creating-variables">3.2
-Creating Variables</a></li>
-<li><a href="#data-types" id="toc-data-types">3.3 Data Types</a>
-<ul>
-<li><a href="#check-the-data-type" id="toc-check-the-data-type">Check
-the data type</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#working-with-vectors" id="toc-working-with-vectors">4.
-Working with Vectors</a></li>
-<li><a href="#creating-and-using-data-frames"
-id="toc-creating-and-using-data-frames">5. Creating and Using Data
-Frames</a>
-<ul>
-<li><a href="#to-access-thandekas-age"
-id="toc-to-access-thandekas-age">To access Thandeka’s age</a></li>
-</ul></li>
-<li><a href="#importing-and-exporting-data"
-id="toc-importing-and-exporting-data">6. Importing and Exporting
-Data</a>
-<ul>
-<li><a href="#importing-data" id="toc-importing-data">6.1 Importing
-Data</a></li>
-<li><a href="#exporting-data" id="toc-exporting-data">6.2 Exporting
-Data</a></li>
-</ul></li>
-<li><a href="#basic-plotting" id="toc-basic-plotting">7. Basic
-Plotting</a></li>
-<li><a href="#installing-and-loading-packages"
-id="toc-installing-and-loading-packages">8. Installing and Loading
-Packages</a></li>
-<li><a href="#creating-and-naming-objects-in-r"
-id="toc-creating-and-naming-objects-in-r">9. Creating and Naming Objects
-in R</a>
-<ul>
-<li><a href="#assign-names-to-values"
-id="toc-assign-names-to-values">Assign names to values</a></li>
-<li><a href="#naming-rules" id="toc-naming-rules">Naming Rules</a></li>
-</ul></li>
-<li><a href="#updating-and-using-objects"
-id="toc-updating-and-using-objects">10. Updating and Using
-Objects</a></li>
-<li><a href="#adding-comments" id="toc-adding-comments">11. Adding
-Comments</a></li>
-<li><a href="#using-functions" id="toc-using-functions">12. Using
-Functions</a></li>
-<li><a href="#subsetting-vectors" id="toc-subsetting-vectors">13.
-Subsetting Vectors</a></li>
-<li><a href="#summary" id="toc-summary">14. Summary</a></li>
-</ul>
-</div>
 
 <div id="getting-started-with-r" class="section level1">
 <h1>Getting Started with R</h1>
@@ -558,6 +566,8 @@ later</strong>.</p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -590,6 +600,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
