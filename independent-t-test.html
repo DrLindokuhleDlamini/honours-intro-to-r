@@ -369,6 +369,7 @@ div.tocify {
 <h2>Download Dataset</h2>
 <p><a href="data/Independent_T_Test_Data.xlsx">Download the dataset used
 in this lesson</a></p>
+<hr />
 </div>
 <div id="independent-t-test-in-r" class="section level1">
 <h1>Independent T-Test in R</h1>
@@ -406,27 +407,34 @@ data2025 &lt;- Independent_t_test
 View(data2025)</code></pre>
 <hr />
 </div>
+<div id="inspect-the-data" class="section level1">
+<h1>5. Inspect the Data</h1>
+<pre class="r"><code>head(data2025)
+
+str(data2025)</code></pre>
+<hr />
+</div>
 <div id="perform-independent-t-test" class="section level1">
-<h1>5. Perform Independent T-Test</h1>
+<h1>6. Perform Independent T-Test</h1>
 <pre class="r"><code>t_test_result &lt;- t.test(`Plant richness` ~ Sites, data = data2025)
 
 print(t_test_result)</code></pre>
 <hr />
 </div>
 <div id="extract-p-value" class="section level1">
-<h1>6. Extract P-value</h1>
-<pre class="r"><code>p_value &lt;- t_test_result$p.value</code></pre>
+<h1>7. Extract P-value</h1>
+<pre class="r"><code>p_value &lt;- t_test_result$p.value
+
+p_value</code></pre>
 <hr />
 </div>
 <div id="plot-mean-values-with-error-bars" class="section level1">
-<h1>7. Plot Mean Values with Error Bars</h1>
-<pre class="r"><code>plot &lt;- ggplot(data2025,
-               aes(x = Sites,
-                   y = `Plant richness`,
-                   fill = Sites)) +
+<h1>8. Plot Mean Values with Error Bars</h1>
+<pre class="r"><code>plot &lt;- ggplot(data2025, aes(x = Sites, y = `Plant richness`, fill = Sites)) +
 
   geom_bar(stat = &quot;summary&quot;,
            fun = &quot;mean&quot;,
+           position = &quot;dodge&quot;,
            width = 0.6) +
 
   geom_errorbar(stat = &quot;summary&quot;,
@@ -437,15 +445,96 @@ print(t_test_result)</code></pre>
 
   labs(title = &quot;Species Richness by Site&quot;,
        x = &quot;Sites&quot;,
-       y = &quot;Plant richness&quot;) +
+       y = &quot;Plant species richness&quot;) +
 
-  theme_classic()</code></pre>
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;) +
+  theme_classic()
+
+plot</code></pre>
 <hr />
 </div>
 <div id="add-significance-annotation" class="section level1">
-<h1>8. Add Significance Annotation</h1>
+<h1>9. Add Significance Annotation</h1>
 <pre class="r"><code>plot + geom_signif(comparisons = list(c(&quot;Invaded&quot;,&quot;Uninvaded&quot;)),
-                   annotations = paste(&quot;p =&quot;, format(p_value, digits = 2)))</code></pre>
+                   annotations = paste(&quot;p =&quot;, format(p_value, digits = 2)),
+                   map_signif_level = TRUE) +
+
+  theme(
+    axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+    axis.line = element_line(color = &quot;black&quot;),
+
+    axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+
+    panel.background = element_rect(fill = &quot;white&quot;),
+
+    legend.title = element_text(color = &quot;black&quot;, size = 14),
+    legend.text = element_text(color = &quot;black&quot;, size = 14)
+  )</code></pre>
+<hr />
+</div>
+<div id="alternative-plot-mean-with-error-bars" class="section level1">
+<h1>10. Alternative Plot: Mean with Error Bars</h1>
+<pre class="r"><code>Errorplot &lt;- ggplot(data2025, aes(x = Sites, y = `Plant richness`)) +
+
+  geom_point(stat = &quot;summary&quot;,
+             fun = &quot;mean&quot;,
+             size = 3.8) +
+
+  geom_errorbar(stat = &quot;summary&quot;,
+                fun.data = &quot;mean_cl_boot&quot;,
+                width = 0.25) +
+
+  labs(x = &quot;Sites&quot;,
+       y = &quot;Plant species richness&quot;) +
+
+  theme(
+    axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.x = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+
+    axis.line = element_line(color = &quot;black&quot;),
+
+    axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 12),
+    axis.title.y = element_text(face = &quot;bold&quot;, color = &quot;black&quot;, size = 18),
+
+    panel.background = element_rect(fill = &quot;white&quot;),
+
+    legend.title = element_text(color = &quot;black&quot;, size = 14),
+    legend.text = element_text(color = &quot;black&quot;, size = 14)
+  )
+
+Errorplot</code></pre>
+<hr />
+</div>
+<div id="add-letter-based-significance" class="section level1">
+<h1>11. Add Letter-Based Significance</h1>
+<pre class="r"><code>Errorplot +
+
+  geom_text(
+    aes(x = 1, y = 12, label = &quot;a&quot;),
+    size = 6,
+    fontface = &quot;bold&quot;,
+    color = &quot;black&quot;
+  ) +
+
+  geom_text(
+    aes(x = 2, y = 17, label = &quot;b&quot;),
+    size = 6,
+    fontface = &quot;bold&quot;,
+    color = &quot;black&quot;
+  )</code></pre>
+<hr />
+</div>
+<div id="interpretation" class="section level1">
+<h1>12. Interpretation</h1>
+<p>If the <strong>p-value &lt; 0.05</strong>, the two groups are
+significantly different.</p>
+<p>If the <strong>p-value &gt; 0.05</strong>, there is no significant
+difference between the means.</p>
+<hr />
+<p>© 2026 Dr Lindokuhle Dlamini</p>
 </div>
 
 
