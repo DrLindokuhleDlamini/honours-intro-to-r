@@ -369,25 +369,16 @@ div.tocify {
 <h2>Download Dataset</h2>
 <p><a href="data/Mann_Whitney_U_Test_Data.xlsx">Download the dataset
 used in this lesson</a></p>
-<table style="width:6%;">
-<colgroup>
-<col width="5%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td># Mann–Whitney U Test</td>
-</tr>
-<tr class="even">
-<td>The <strong>Mann–Whitney U test</strong> is the
+<hr />
+</div>
+<div id="mannwhitney-u-test" class="section level1">
+<h1>Mann–Whitney U Test</h1>
+<p>The <strong>Mann–Whitney U test</strong> is the
 <strong>non-parametric alternative</strong> to the independent
-t-test.</td>
-</tr>
-<tr class="odd">
-<td>It is used when the assumptions of the t-test (such as normality)
-are violated.</td>
-</tr>
-</tbody>
-</table>
+t-test.</p>
+<p>It is used when the assumptions of the t-test (such as normality) are
+violated.</p>
+<hr />
 </div>
 <div id="load-required-packages" class="section level1">
 <h1>Load Required Packages</h1>
@@ -401,16 +392,14 @@ library(car)</code></pre>
 </div>
 <div id="check-working-directory" class="section level1">
 <h1>Check Working Directory</h1>
-<pre class="r"><code>getwd()
-
-setwd(&quot;G:/My Drive/Rhodes/2025/Honours 2025/Intro to R Hons 2025&quot;)</code></pre>
+<pre class="r"><code>getwd()</code></pre>
 <hr />
 </div>
 <div id="import-data" class="section level1">
 <h1>Import Data</h1>
-<pre class="r"><code>Nonparametric_t_test.xlsx &lt;- read_excel(&quot;Nonparametric t test.xlsx&quot;)
+<pre class="r"><code>mann_whitney_data &lt;- read_excel(&quot;Mann_Whitney_U_Test_Data.xlsx&quot;)
 
-data2025 &lt;- Nonparametric_t_test.xlsx
+data2025 &lt;- mann_whitney_data
 
 View(data2025)</code></pre>
 <hr />
@@ -428,28 +417,14 @@ View(data2025)</code></pre>
 <div id="test-equality-of-variance" class="section level1">
 <h1>Test Equality of Variance</h1>
 <pre class="r"><code>leveneTest(`Plant richness` ~ Sites, data = data2025)</code></pre>
-<table style="width:6%;">
-<colgroup>
-<col width="5%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>## Download Dataset</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td># Perform Mann–Whitney U Test</td>
-</tr>
-<tr class="even">
-<td>``<code>r mann_whitney_result &lt;- wilcox.test(</code>Plant
-richness` ~ Sites, data = data2025)</td>
-</tr>
-<tr class="odd">
-<td>print(mann_whitney_result) ```</td>
-</tr>
-</tbody>
-</table>
+<hr />
+</div>
+<div id="perform-mannwhitney-u-test" class="section level1">
+<h1>Perform Mann–Whitney U Test</h1>
+<pre class="r"><code>mann_whitney_result &lt;- wilcox.test(`Plant richness` ~ Sites, data = data2025)
+
+print(mann_whitney_result)</code></pre>
+<hr />
 </div>
 
 
